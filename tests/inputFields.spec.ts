@@ -15,31 +15,32 @@ test.beforeEach(async ({ page }) => {
 
 test("TC1: Update pet type", async ({ page }) => {
     // 3. Click on "Edit" button for the "cat" pet type
-    await page.getByRole('row', { name: "cat" }).locator("//button[text()='Edit']").click();
+    await page.getByRole('row', { name: "cat" }).getByRole("button", {name: "Edit"}).click();
     // 4. Add assertion of the "Edit Pet Type" text displayed
     await expect(heading).toHaveText("Edit Pet Type")
     // 5. Change the pet type name from "cat" to "rabbit" and click "Update" button
     const nameInputField: Locator = page.getByRole("textbox");
+    await expect(nameInputField).toHaveValue("cat");
     await nameInputField.clear();
     await nameInputField.fill("rabbit");
     await page.getByRole("button", { name: "Update" }).click();
     // 6. Add the assertion that the first pet type in the list of types has a value "rabbit" 
     let firstPetType: Locator = page.getByRole("textbox").first();
-    expect(firstPetType).toHaveValue("rabbit");
+    await expect(firstPetType).toHaveValue("rabbit");
     // 7. Click on "Edit" button for the same "rabbit" pet type
-    await page.getByRole('row', { name: "rabbit" }).locator("//button[text()='Edit']").click();
+    await page.getByRole('row', { name: "rabbit" }).getByRole("button", {name: "Edit"}).click();
     // 8. Change the pet type name back from "rabbit" to "cat" and click "Update" button
+    await expect(nameInputField).toHaveValue("rabbit");
     await nameInputField.clear();
     await nameInputField.fill("cat");
     await page.getByRole("button", { name: "Update" }).click();
     // 9. Add the assertion that the first pet type in the list of names has a value "cat" 
-    firstPetType = page.getByRole("textbox").first();
-    expect(firstPetType).toHaveValue("cat");
+    await expect(firstPetType).toHaveValue("cat");
 })
 
 test("TC2: Cancel pet type update", async ({ page }) => {
     // 3. Click on "Edit" button for the "dog" pet type
-    await page.getByRole('row', { name: "dog" }).locator("//button[text()='Edit']").click();
+    await page.getByRole('row', { name: "dog" }).getByRole("button", {name: "Edit"}).click();
     // 4. Type the new pet type name "moose"
     const nameInputField: Locator = page.getByRole("textbox");
     await nameInputField.clear();
@@ -54,8 +55,9 @@ test("TC2: Cancel pet type update", async ({ page }) => {
 
 test("TC3: Pet type name is required validation", async ({ page }) => {
     // 3. Click on "Edit" button for the "lizard" pet type
-    await page.getByRole('row', { name: "lizard" }).locator("//button[text()='Edit']").click();
+    await page.getByRole('row', { name: "lizard" }).getByRole("button", {name: "Edit"}).click();
     // 4. On the Edit Pet Type page, clear the input field
+    await expect(page.getByRole("textbox")).toHaveValue("lizard");
     await page.getByRole("textbox").clear();
     // 5. Add the assertion for the "Name is required" message below the input field
     await expect(page.locator("span.help-block")).toHaveText("Name is required");
