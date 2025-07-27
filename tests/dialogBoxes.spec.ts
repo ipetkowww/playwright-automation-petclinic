@@ -2,18 +2,16 @@ import { expect, Locator, test } from '@playwright/test';
 
 test("TC1: Update pet type", async ({ page }) => {
     await page.goto('/')
-    const heading: Locator = page.getByRole("heading");
-
     // 1. Select the PET TYPES menu item in the navigation bar
     await page.getByTitle("pettypes").click();
     // 2. On the "Pet Types" page, add assertion of the "Pet Types" text displayed above the table with the list of pet types
-    await expect(heading).toHaveText("Pet Types")
+    await expect(page.getByRole("heading")).toHaveText("Pet Types")
     // 3. Click on "Add" button
     await page.getByRole("button", { name: "Add" }).click();
     // 4. Add assertions of "New Pet Type" section title, "Name" header for the input field and the input field is visible
-    const nameInputField: Locator = page.getByRole("textbox", { name: "Name" });
+    const nameInputField: Locator = page.locator("#name");
     await expect(page.getByRole("heading", { name: "New Pet Type" })).toBeVisible();
-    await expect(page.locator("label.control-label")).toBeVisible();
+    await expect(page.locator(".control-label")).toBeVisible();
     await expect(nameInputField).toBeVisible();
     // 5. Add a new pet type with the name "pig" and click "Save" button
     await nameInputField.fill("pig");
