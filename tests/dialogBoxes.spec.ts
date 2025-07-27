@@ -1,6 +1,6 @@
 import { expect, Locator, test } from '@playwright/test';
 
-test("TC1: Update pet type", async ({ page }) => {
+test("TC: Add and delete pet type", async ({ page }) => {
     await page.goto('/')
     // 1. Select the PET TYPES menu item in the navigation bar
     await page.getByTitle("pettypes").click();
