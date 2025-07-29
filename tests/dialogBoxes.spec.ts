@@ -17,8 +17,8 @@ test("TC: Add and delete pet type", async ({ page }) => {
     await nameInputField.fill("pig");
     await page.getByRole("button", { name: "Save" }).click();
     // 6. Add assertion that the last item in the list of pet types has value of "pig"
-    const lastPetElement: Locator = page.locator('[name="pettype_name"]').last();
-    await expect(lastPetElement).toHaveValue("pig");
+    const lastPetTypeField: Locator = page.locator('[name="pettype_name"]').last();
+    await expect(lastPetTypeField).toHaveValue("pig");
     // 7. Click on "Delete" button for the "pig" pet type
     page.on("dialog", dialog => {
         // 8. Add assertion to validate the message of the dialog box "Delete the pet type?"
@@ -28,5 +28,5 @@ test("TC: Add and delete pet type", async ({ page }) => {
     })
     await page.getByRole("row", { name: "pig" }).getByRole("button", { name: "Delete" }).click();
     // 10, Add assertion, that the last item in the list of pet types is not the "pig"
-    await expect(lastPetElement).not.toHaveText("pig");
+    await expect(lastPetTypeField).not.toHaveText("pig");
 })
