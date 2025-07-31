@@ -23,7 +23,7 @@ test.describe("Tests related to OWNERS page", () => {
     test("TC 2: Validate owners count of the Madison city", async ({ page }) => {
         // 2. In the list of Owners, locate all owners who live in the city of "Madison". 
         // Add the assertion that the total number of owners should be 4
-        expect(await page.getByRole("row", { name: "Madison" }).all()).toHaveLength(4);
+        await expect(page.getByRole("row", { name: "Madison" })).toHaveCount(4);
     })
 
     test("TC 3: Validate search by Last Name", async ({ page }) => {
@@ -72,9 +72,7 @@ test.describe("Tests related to OWNERS page", () => {
             const petName: null | string = await row.locator("td").nth(4).textContent();
             actualPetNames.push(petName!.trim());
         }
-
-        expect(actualPetNames.length).toEqual(expectedPetNames.length);
-        expect(actualPetNames.every((val, index) => val === expectedPetNames[index])).toBeTruthy();
+        expect(actualPetNames).toEqual(expectedPetNames);
     })
 })
 
@@ -139,14 +137,10 @@ test("TC 7: Validate specialty lists", async ({ page }) => {
     const targetRow: Locator = page.getByRole("row", { name: "Sharon Jenkins" });
     await targetRow.getByRole("button", { name: "Edit Vet" }).click();
     // 6. Click on the Specialties drop-down menu. Extract all values from the drop-down menu to an array
-    const veterinarianSpecialities: string[] = [];
     await page.locator(".dropdown-display").click();
-    for (const veterinarianSpeciality of await page.locator(".dropdown-content label").allTextContents()) {
-        veterinarianSpecialities.push(veterinarianSpeciality);
-    }
+    const veterinarianSpecialities: string[] = await page.locator(".dropdown-content label").allTextContents();
     // 7. Add the assertion that array of specialties collected in the step 3 is equal the the array from drop-down menu
-    expect(specialities.length).toEqual(veterinarianSpecialities.length);
-    expect(specialities.every((val, index) => val === veterinarianSpecialities[index])).toBeTruthy();
+    expect(specialities).toEqual(veterinarianSpecialities);
     // 8. Select the "oncology" specialty and click "Save vet" button
     await page.getByRole("checkbox", {name: "oncology"}).check();
     await page.locator(".dropdown-display").click();
