@@ -16,7 +16,7 @@ test("TC1: Select the desired date in the calendar", async ({ page }) => {
     const petNameField: Locator = page.locator("#name");
     await petNameField.fill("Tom");
     // 5. Add the assertion of icon in the input field, that it changed from "x" to "v"
-    await expect(petNameField).toHaveAttribute("class", /ng-valid/)
+    await expect(page.locator("#name + span")).toHaveAttribute("class", /glyphicon-ok/)
     // 6. Click on the calendar icon for the "Birth Date" field
     await page.getByLabel("Open calendar").click();
     // 7. Using calendar selector, select the date "May 2nd, 2014"
