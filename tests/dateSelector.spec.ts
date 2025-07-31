@@ -87,12 +87,10 @@ test("TC2: Select the dates of visits and validate dates order", async ({ page }
     // 13. Add the assertion, that date added at step 11 is in chronological order in relation to the previous dates for "Samantha" pet 
     // on the "Owner Information" page. The date of visit above this date in the table should be greater.
     const secondVisitDate: null | string = await visitTableRows.nth(1).locator("td").nth(0).textContent();
-    //TODO: add assertion here
-
-
-    
+    expect(new Date(firstVisitDate!).getTime()).toBeGreaterThan(new Date(secondVisitDate!).getTime());
     // 14. Select the "Delete Visit" button for both newly created visits
-    for (let i = 0; i < 2; i++) {
+    const createdRowsCount: number = 2;
+    for (let i = 0; i < createdRowsCount; i++) {
         await visitTableRows.first().getByRole("button", { name: "Delete Visit" }).click();
     }
     // 15. Add the assertion that deleted visits are no longer displayed in the table on "Owner Information" page
