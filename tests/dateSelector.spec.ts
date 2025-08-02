@@ -1,4 +1,6 @@
-import { expect, Locator, test } from '@playwright/test';
+import { expect, Locator } from '@playwright/test';
+import { test } from "../fixtures/base.ts";
+import { AddPetFormData } from '../types/add-pet-form-data.ts';
 
 test.beforeEach(async ({ page }) => {
     await page.goto('/')
@@ -7,38 +9,28 @@ test.beforeEach(async ({ page }) => {
     await page.getByRole("link", { name: "Search" }).click();
 })
 
-test("TC1: Select the desired date in the calendar", async ({ page }) => {
+test("TC1: Select the desired date in the calendar", async ({ ownersPage, ownerInformationPage, }) => {
     // 2. In the list of the Owners, locate the owner by the name "Harold Davis" and select this owner
-    await page.getByText("Harold Davis").click();
+    await ownersPage.openOwnerInformation("Harold Davis");
     // 3. On the Owner Information page, select "Add New Pet" button
-    await page.getByRole("button", { name: "Add New Pet" }).click();
     // 4. In the Name field, type any new pet name, for example "Tom"
-    const petNameField: Locator = page.locator("#name");
-    await petNameField.fill("Tom");
     // 5. Add the assertion of icon in the input field, that it changed from "x" to "v"
-    await expect(page.locator("#name + span")).toHaveAttribute("class", /glyphicon-ok/)
     // 6. Click on the calendar icon for the "Birth Date" field
-    await page.getByLabel("Open calendar").click();
     // 7. Using calendar selector, select the date "May 2nd, 2014"
-    await page.getByLabel("Choose month and year").click();
-    await page.getByLabel("Previous 24 years").click();
-    await page.getByLabel("2014").click();
-    await page.getByText("MAY").click();
-    await page.getByText("2", { exact: true }).click();
     // 8. Add the assertion of the in the input field is in the format "2014/05/02"
-    await expect(page.locator("[name='birthDate']")).toHaveValue("2014/05/02")
     // 9. Select the type of pet "dog" and click "Save Pet" button
-    await page.selectOption("#type", "dog");
-    await page.getByRole("button", { name: "Save Pet" }).click();
+    const petData: AddPetFormData = {
+        name: "Tom",
+        birthDate: "2014/MAY/2",
+        type: "dog",
+    }
+    await ownerInformationPage.addNewPet(petData);
     // 10. On the Owner Information page, add assertions for the newly created pet. Name is Tom, Birth Date is in the format "2014-05-02", Type is dog
-    const tomPetCard: Locator = page.locator("app-pet-list", { hasText: "Tom" });
-    await expect(tomPetCard.locator("dt:has-text('Name') + dd")).toHaveText("Tom");
-    await expect(tomPetCard.locator("dt:has-text('Birth Date') + dd")).toHaveText("2014-05-02");
-    await expect(tomPetCard.locator("dt:has-text('Type') + dd")).toHaveText("dog");
+    await ownerInformationPage.asserts.assertNewlyCreatedPet(petData);
     // 11. Click "Delete Pet" button the for the new pet "Tom"
-    await tomPetCard.getByRole("button", { name: "Delete Pet" }).click();
+    await ownerInformationPage.deletePet(petData.name);
     // 12. Add assertion that Tom does not exist in the list of pets anymore
-    await expect(tomPetCard).not.toBeVisible();
+    await expect(ownerInformationPage.elements.petCardElementFor(petData.name)).not.toBeVisible();
 })
 
 test("TC2: Select the dates of visits and validate dates order", async ({ page }) => {
