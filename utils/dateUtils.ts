@@ -19,5 +19,4 @@ export class DateUtils {
 
         return `${yyyy}${delimeterSign}${month}${delimeterSign}${dd.padStart(2, "0")}`;
     }
-
 }
