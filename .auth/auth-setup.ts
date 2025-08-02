@@ -3,9 +3,9 @@ import { chromium, type FullConfig } from '@playwright/test';
 const fs = require('fs').promises;
 const filePath = '.auth/user.json';
 
-async function browserAuthorize(config: FullConfig){
+async function browserAuthorize(config: FullConfig) {
     const { baseURL, storageState } = config.projects[0].use;
-   
+
     let user: any;
     try {
         const data = await fs.readFile(filePath);
@@ -29,12 +29,16 @@ async function browserAuthorize(config: FullConfig){
     console.log(`\x1b[2m\tSign in started to '${baseURL}'\x1b[0m`);
 
     await page.goto(baseURL!)
-    if(await page.locator('.login').isVisible()){
+
+    const isVisible = await page.locator('#username').isVisible();
+    console.log(isVisible);
+
+    // if (await page.locator('#username').isVisible()) {
         await page.locator('#username').fill(process.env.EMAIL)
         await page.locator('#password').fill(process.env.PASSWORD)
         await page.getByRole('button', { name: 'Continue' }).click()
-    }
-    const tokenResponse = await page.waitForResponse("**/token")
+    // }
+    const tokenResponse = await page.waitForResponse("**/token", { timeout: 60_000 })
     const responeJsonBody = await tokenResponse.json()
     const accessToken = responeJsonBody.access_token
     process.env['ACCESS_TOKEN'] = accessToken
