@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import { WebPage } from '../webPage';
 import { PageElements } from './pageElements';
 
@@ -17,9 +17,11 @@ export class OwnersPage extends WebPage {
 
     async open(): Promise<void> {
         this.navigationMenu.openOwnersPage();
+        await expect(this.elements.heading).toHaveText("Owners")
     }
 
     async openOwnerInformation(ownerName: string): Promise<void> {
         await this.elements.getOwnerNameLink(ownerName).click();
+        await expect(this.elements.ownerNameElement).toHaveText(ownerName);
     }
 }

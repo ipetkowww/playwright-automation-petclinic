@@ -41,4 +41,8 @@ export class PageElements {
             .getByRole("button", { name: "Delete Visit" });
     }
 
+    editPetButtonFor(petName: string): Locator {
+        return this.petCardElementFor(petName).getByRole('button', { name: 'Edit Pet' });
+    }
+
 }

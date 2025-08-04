@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 
 export class PageElements {
 
@@ -6,5 +6,13 @@ export class PageElements {
 
     getOwnerNameLink(name: string): Locator {
         return this.page.getByText(name, { exact: true });
+    }
+
+    get heading(): Locator {
+        return this.page.getByRole("heading");
+    }
+
+    get ownerNameElement(): Locator {
+        return this.page.getByRole("row", { name: "Name" }).locator(".ownerFullName")
     }
 }

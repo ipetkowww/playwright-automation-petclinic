@@ -6,6 +6,7 @@ import { PageElements } from './pageElements';
 import { Asserts } from './asserts';
 import { AddVisitPage } from '../add-visit-page/addVisitPage';
 import { PetVisitData } from '../../types/pet-visit-data';
+import { EditPetPage } from '../edit-pet-page/editPetPage';
 
 export class OwnerInformationPage extends WebPage {
 
