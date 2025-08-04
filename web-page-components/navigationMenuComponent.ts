@@ -15,4 +15,9 @@ export class NavigationMenuComponent {
         await this.page.getByText(/Owners/).click();
         await this.page.getByRole("link", { name: "Search" }).click();
     }
+
+    async openPetTypesPage() {
+        await this.page.goto("/");
+        await this.page.getByTitle("pettypes").click();
+    }
 }

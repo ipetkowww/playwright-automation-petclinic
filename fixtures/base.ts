@@ -1,14 +1,16 @@
 import { test as base } from "@playwright/test";
-import { VeterinariansAllPage } from "../pages/veterinarians/veterinariansPage";
 import { EditVeterinarianPage } from "../pages/edit-veterinarian-page/editVeterinarianPage";
-import { OwnersPage } from "../pages/owners-page/ownersPage";
 import { OwnerInformationPage } from "../pages/owner-information-page/ownerInformationPage";
+import { OwnersPage } from "../pages/owners-page/ownersPage";
+import { PetTypesPage } from "../pages/pet-types-page/petTypesPage";
+import { VeterinariansAllPage } from "../pages/veterinarians/veterinariansPage";
 
 export type MyFixtures = {
     veterinariansAllPage: VeterinariansAllPage;
     editVeterinarianPage: EditVeterinarianPage;
     ownersPage: OwnersPage;
     ownerInformationPage: OwnerInformationPage;
+    petTypesPage: PetTypesPage;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -26,5 +28,9 @@ export const test = base.extend<MyFixtures>({
 
     ownerInformationPage: async ({ page }, use) => {
         await use(new OwnerInformationPage(page));
+    },
+
+    petTypesPage: async ({ page }, use) => {
+        await use(new PetTypesPage(page));
     }
 });
