@@ -4,6 +4,7 @@ import { OwnerInformationPage } from "../pages/owner-information-page/ownerInfor
 import { OwnersPage } from "../pages/owners-page/ownersPage";
 import { PetTypesPage } from "../pages/pet-types-page/petTypesPage";
 import { VeterinariansAllPage } from "../pages/veterinarians/veterinariansPage";
+import { EditPetTypePage } from "../pages/edit-pet-type-page/editPetTypePage";
 
 export type MyFixtures = {
     veterinariansAllPage: VeterinariansAllPage;
@@ -11,6 +12,7 @@ export type MyFixtures = {
     ownersPage: OwnersPage;
     ownerInformationPage: OwnerInformationPage;
     petTypesPage: PetTypesPage;
+    editPetTypePage: EditPetTypePage;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -32,5 +34,9 @@ export const test = base.extend<MyFixtures>({
 
     petTypesPage: async ({ page }, use) => {
         await use(new PetTypesPage(page));
+    },
+
+    editPetTypePage: async ({ page }, use) => {
+        await use(new EditPetTypePage(page));
     }
 });

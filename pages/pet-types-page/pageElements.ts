@@ -31,4 +31,8 @@ export class PageElements {
     deleteButtonForPetType(petType: string): Locator {
         return this.page.getByRole("row", { name: petType }).getByRole("button", { name: "Delete" });
     }
+
+    editButtonForPetType(petType: string): Locator {
+        return this.page.getByRole('row', { name: petType }).getByRole("button", { name: "Edit" });
+    }
 }
