@@ -1,9 +1,11 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import { AddPetFormData } from '../../types/add-pet-form-data';
 import { AddPetPage } from '../add-pet-page/addPetPage';
 import { WebPage } from '../webPage';
 import { PageElements } from './pageElements';
 import { Asserts } from './asserts';
+import { AddVisitPage } from '../add-visit-page/addVisitPage';
+import { PetVisitData } from '../../types/pet-visit-data';
 
 export class OwnerInformationPage extends WebPage {
 
@@ -31,5 +33,23 @@ export class OwnerInformationPage extends WebPage {
 
     async deletePet(petName: string): Promise<void> {
         await this.elements.deletePetButtonFor(petName).click();
+    }
+
+    async addVisitForPet(petName: string, description: string, daysBackFromToday?: number): Promise<PetVisitData> {
+        await this.elements.addVisitButtonFor(petName).click();
+
+        const addVisitPage: AddVisitPage = new AddVisitPage(this.page);
+        await expect(addVisitPage.elements.heading).toHaveText("New Visit");
+        await expect(addVisitPage.elements.rowForPet(petName).locator("td").nth(0)).toHaveText("Samantha");
+        await expect(addVisitPage.elements.rowForPet(petName).locator("td").nth(3)).toHaveText("Jean Coleman");
+
+        return addVisitPage.addVisit(description, daysBackFromToday);
+    }
+
+    async deletePetVisit(petName: string, ...petVisits: PetVisitData[]): Promise<void> {
+        for (const petVisit of petVisits) {
+            await this.elements.deleteVisitButtonFor(petName, petVisit.description).click();
+            await this.page.locator(".overlay").waitFor({ state: "detached" });
+        }
     }
 }

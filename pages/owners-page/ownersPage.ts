@@ -15,6 +15,10 @@ export class OwnersPage extends WebPage {
         return this._elements;
     }
 
+    async open(): Promise<void> {
+        this.navigationMenu.openOwnersPage();
+    }
+
     async openOwnerInformation(ownerName: string): Promise<void> {
         await this.elements.getOwnerNameLink(ownerName).click();
     }

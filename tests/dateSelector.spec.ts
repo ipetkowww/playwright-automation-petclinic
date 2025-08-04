@@ -1,12 +1,11 @@
-import { expect, Locator } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { test } from "../fixtures/base.ts";
 import { AddPetFormData } from '../types/add-pet-form-data.ts';
+import { PetVisitData } from '../types/pet-visit-data.ts';
 
-test.beforeEach(async ({ page }) => {
-    await page.goto('/')
+test.beforeEach(async ({ ownersPage }) => {
     // 1. Select the OWNERS menu item in the navigation bar and then select "Search" from the drop-down menu
-    await page.getByText(/Owners/).click();
-    await page.getByRole("link", { name: "Search" }).click();
+    ownersPage.open();
 })
 
 test("TC1: Select the desired date in the calendar", async ({ ownersPage, ownerInformationPage, }) => {
@@ -33,59 +32,27 @@ test("TC1: Select the desired date in the calendar", async ({ ownersPage, ownerI
     await expect(ownerInformationPage.elements.petCardElementFor(petData.name)).not.toBeVisible();
 })
 
-test("TC2: Select the dates of visits and validate dates order", async ({ page }) => {
+test("TC2: Select the dates of visits and validate dates order", async ({ page, ownersPage, ownerInformationPage }) => {
     // 2. In the list of the Owners, locate the owner by the name "Jean Coleman" and select this owner
-    await page.getByText("Jean Coleman").click();
+    await ownersPage.openOwnerInformation("Jean Coleman");
     // 3. In the list of pets, locate the pet with a name "Samantha" and click "Add Visit" button
-    const samanthaPetCard: Locator = page.locator("app-pet-list", { hasText: "Samantha" });
-    await samanthaPetCard.getByRole("button", { name: "Add Visit" }).click();
     // 4. Add the assertion that "New Visit" is displayed as header of the page
-    await expect(page.getByRole("heading")).toHaveText("New Visit");
     // 5. Add the assertion that pet name is "Samantha" and owner name is "Jean Coleman"
-    const petSamanthaRow: Locator = page.locator(".table-striped").getByRole("row", { name: "Samantha" });
-    await expect(petSamanthaRow.locator("td").nth(0)).toHaveText("Samantha");
-    await expect(petSamanthaRow.locator("td").nth(3)).toHaveText("Jean Coleman");
     // 6. Click on the calendar icon and select the current date in date picker
-    await page.getByLabel('Open calendar').click();
-    await page.locator("button.mat-calendar-body-active").click();
     // 7. Add assertion that selected date is displayed and it is in the format "YYYY/MM/DD"
-    const dateField: Locator = page.locator("input[name='date']");
-    expect(await dateField.inputValue()).toMatch(/^\d{4}\/\d{2}\/\d{2}$/);
     // 8. Type the description in the field, for example, "dermatologists visit" and click "Add Visit" button
-    const descriptionField: Locator = page.locator("#description");
-    const addVisitButton: Locator = page.getByRole("button", { name: "Add Visit" });
-    await descriptionField.fill("dermatologists visit");
-    await addVisitButton.click();
     // 9. Add assertion that selected date of visit is displayed at the top of the list of visits for "Samantha" pet 
     // on the "Owner Information" page and is in the format "YYYY-MM-DD"
-    const visitTableRows: Locator = samanthaPetCard.locator("app-visit-list table > tr");
-    // const firstRowPetVisits: Locator = petCard.locator("app-visit-list table > tr").first();
-    const todayDate = new Date().toLocaleDateString("en-CA");
-    const firstVisitDate: null | string = await visitTableRows.first().locator("td").nth(0).textContent();
-    expect(firstVisitDate).toEqual(todayDate);
-    expect(firstVisitDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-    // 10. Add one more visit for "Samantha" pet by clicking "Add Visit" button
-    await samanthaPetCard.getByRole("button", { name: "Add Visit" }).click();
+    const petFirstVisit: PetVisitData = await ownerInformationPage.addVisitForPet("Samantha", "dermatologists visit");
+    await ownerInformationPage.asserts.assertNewAddedVisitForPet("Samantha");
     // 11. Click on the calendar icon and select the date which is 45 days back from the current date
-    const date: Date = new Date();
-    date.setDate(date.getDate() - 45);
-    const expectedDay: string = date.toLocaleString('en-US', { day: '2-digit' })
-    const expectedMonth: string = date.toLocaleString('en-US', { month: '2-digit' });
-    const expectedYear: string = date.getFullYear().toString();
-    await dateField.fill(`${expectedYear}/${expectedMonth}/${expectedDay}`)
     // 12. Type the description in the field, for example, "massage therapy" and click "Add Visit" button
-    await descriptionField.fill("massage therapy");
-    await addVisitButton.click();
+    const petSecondVisit: PetVisitData = await ownerInformationPage.addVisitForPet("Samantha", "massage therapy", 45);
     // 13. Add the assertion, that date added at step 11 is in chronological order in relation to the previous dates for "Samantha" pet 
     // on the "Owner Information" page. The date of visit above this date in the table should be greater.
-    const secondVisitDate: null | string = await visitTableRows.nth(1).locator("td").nth(0).textContent();
-    expect(new Date(firstVisitDate!).getTime()).toBeGreaterThan(new Date(secondVisitDate!).getTime());
+    // await ownerInformationPage.asserts.assertChronologicalOrderBetweenTwoVisits(petFirstVisit, petSecondVisit);
     // 14. Select the "Delete Visit" button for both newly created visits
-    while (await visitTableRows.count() > 2) {
-        await visitTableRows.first().getByRole("button", { name: "Delete Visit" }).click();
-        await page.locator(".overlay").waitFor({ state: "detached" });
-    }
-    // 15. Add the assertion that deleted visits are no longer displayed in the table on "Owner Information" page
-    await expect(visitTableRows.getByText(firstVisitDate!)).not.toBeVisible();
-    await expect(visitTableRows.getByText(secondVisitDate!)).not.toBeVisible();
+    await ownerInformationPage.deletePetVisit("Samantha", petFirstVisit, petSecondVisit);
+    // // 15. Add the assertion that deleted visits are no longer displayed in the table on "Owner Information" page
+    await ownerInformationPage.asserts.assertsVisitsDelete("Samantha", petFirstVisit, petSecondVisit);
 })

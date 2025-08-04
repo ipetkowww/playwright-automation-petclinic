@@ -27,4 +27,18 @@ export class PageElements {
     deletePetButtonFor(petName: string): Locator {
         return this.petCardElementFor(petName).getByRole("button", { name: "Delete Pet" });
     }
+
+    addVisitButtonFor(petName: string): Locator {
+        return this.petCardElementFor(petName).getByRole("button", { name: "Add Visit" });
+    }
+
+    visitsForPet(petName: string): Locator {
+        return this.petCardElementFor(petName).locator("app-visit-list table > tr");
+    }
+
+    deleteVisitButtonFor(petName: string, visitDescription: string): Locator {
+        return this.visitsForPet(petName).locator(`td:has-text("${visitDescription}") + td`)
+            .getByRole("button", { name: "Delete Visit" });
+    }
+
 }
