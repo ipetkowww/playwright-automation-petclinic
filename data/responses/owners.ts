@@ -1,0 +1,129 @@
+import { Owner } from "../../types/owner-data";
+
+export const owners: Owner[] = [
+    {
+        firstName: "Ivan",
+        lastName: "Petkov",
+        address: "Bulgaria",
+        city: "Sofia",
+        telephone: "1234567890",
+        id: 1,
+        pets: [
+            {
+                name: "Mickey Mouse",
+                birthDate: "2025-01-01",
+                type: {
+                    id: 1,
+                    name: "mouse"
+                },
+                id: 1,
+                ownerId: 1,
+                visits: [
+                    {
+                        "date": "2010-01-04",
+                        "description": "visit 1",
+                        "id": 5107,
+                        "petId": null
+                    },
+                    {
+                        "date": "2010-02-04",
+                        "description": "visit 2",
+                        "id": 5107,
+                        "petId": null
+                    },
+                    {
+                        "date": "2010-03-04",
+                        "description": "visit 3",
+                        "id": 5107,
+                        "petId": null
+                    },
+                    {
+                        "date": "2010-04-04",
+                        "description": "visit 4",
+                        "id": 5107,
+                        "petId": null
+                    },
+                    {
+                        "date": "2010-05-04",
+                        "description": "visit 5",
+                        "id": 5107,
+                        "petId": null
+                    },
+                    {
+                        "date": "2010-06-04",
+                        "description": "visit 6",
+                        "id": 5107,
+                        "petId": null
+                    },
+                    {
+                        "date": "2010-07-04",
+                        "description": "visit 7",
+                        "id": 5107,
+                        "petId": null
+                    },
+                    {
+                        "date": "2010-08-04",
+                        "description": "visit 8",
+                        "id": 5107,
+                        "petId": null
+                    },
+                    {
+                        "date": "2010-09-04",
+                        "description": "visit 9",
+                        "id": 5107,
+                        "petId": null
+                    },
+                    {
+                        "date": "2010-10-04",
+                        "description": "visit 10",
+                        "id": 5107,
+                        "petId": null
+                    }
+                ]
+            },
+            {
+                name: "Donald Duck",
+                birthDate: "2024-01-01",
+                type: {
+                    id: 2,
+                    name: "duck"
+                },
+                id: 2,
+                ownerId: 1,
+                visits: []
+            }
+        ]
+    },
+    {
+        firstName: "X",
+        lastName: "X",
+        address: "X",
+        city: "X",
+        telephone: "X",
+        id: 1,
+        pets: [
+            {
+                name: "X",
+                birthDate: "2025-01-01",
+                type: {
+                    id: 1,
+                    name: "mouse"
+                },
+                id: 1,
+                ownerId: 1,
+                visits: []
+            },
+            {
+                name: "X",
+                birthDate: "2024-01-01",
+                type: {
+                    id: 2,
+                    name: "duck"
+                },
+                id: 2,
+                ownerId: 1,
+                visits: []
+            }
+        ]
+    }
+]
