@@ -13,6 +13,10 @@ export class PageElements {
     }
 
     get ownerNameElement(): Locator {
-        return this.page.getByRole("row", { name: "Name" }).locator(".ownerFullName")
+        return this.page.locator(".ownerFullName")
+    }
+
+    get tableRows(): Locator {
+        return this.page.getByRole("row");
     }
 }
