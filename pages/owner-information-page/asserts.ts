@@ -1,6 +1,5 @@
 import { expect, Locator } from '@playwright/test';
 import { AddPetFormData } from '../../types/add-pet-form-data';
-import { Owner, Pet } from '../../types/owner-data';
 import { PetVisitData } from '../../types/pet-visit-data';
 import { DateUtils } from '../../utils/dateUtils';
 import { PageElements } from './pageElements';
