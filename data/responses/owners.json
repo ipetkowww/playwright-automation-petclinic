@@ -1,24 +1,22 @@
-import { Owner } from "../../types/owner-data";
-
-export const owners: Owner[] = [
+[
     {
-        firstName: "Ivan",
-        lastName: "Petkov",
-        address: "Bulgaria",
-        city: "Sofia",
-        telephone: "1234567890",
-        id: 1,
-        pets: [
+        "firstName": "Ivan",
+        "lastName": "Petkov",
+        "address": "Bulgaria",
+        "city": "Sofia",
+        "telephone": "1234567890",
+        "id": 1,
+        "pets": [
             {
-                name: "Mickey Mouse",
-                birthDate: "2025-01-01",
-                type: {
-                    id: 1,
-                    name: "mouse"
+                "name": "Mickey Mouse",
+                "birthDate": "2025-01-01",
+                "type": {
+                    "id": 1,
+                    "name": "mouse"
                 },
-                id: 1,
-                ownerId: 1,
-                visits: [
+                "id": 1,
+                "ownerId": 1,
+                "visits": [
                     {
                         "date": "2010-01-04",
                         "description": "visit 1",
@@ -82,47 +80,47 @@ export const owners: Owner[] = [
                 ]
             },
             {
-                name: "Donald Duck",
-                birthDate: "2024-01-01",
-                type: {
-                    id: 2,
-                    name: "duck"
+                "name": "Donald Duck",
+                "birthDate": "2024-01-01",
+                "type": {
+                    "id": 2,
+                    "name": "duck"
                 },
-                id: 2,
-                ownerId: 1,
-                visits: []
+                "id": 2,
+                "ownerId": 1,
+                "visits": []
             }
         ]
     },
     {
-        firstName: "X",
-        lastName: "X",
-        address: "X",
-        city: "X",
-        telephone: "X",
-        id: 1,
-        pets: [
+        "firstName": "X",
+        "lastName": "X",
+        "address": "X",
+        "city": "X",
+        "telephone": "X",
+        "id": 1,
+        "pets": [
             {
-                name: "X",
-                birthDate: "2025-01-01",
-                type: {
-                    id: 1,
-                    name: "mouse"
+                "name": "X",
+                "birthDate": "2025-01-01",
+                "type": {
+                    "id": 1,
+                    "name": "mouse"
                 },
-                id: 1,
-                ownerId: 1,
-                visits: []
+                "id": 1,
+                "ownerId": 1,
+                "visits": []
             },
             {
-                name: "X",
-                birthDate: "2024-01-01",
-                type: {
-                    id: 2,
-                    name: "duck"
+                "name": "X",
+                "birthDate": "2024-01-01",
+                "type": {
+                    "id": 2,
+                    "name": "duck"
                 },
-                id: 2,
-                ownerId: 1,
-                visits: []
+                "id": 2,
+                "ownerId": 1,
+                "visits": []
             }
         ]
     }

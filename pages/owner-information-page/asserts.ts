@@ -34,22 +34,22 @@ export class Asserts {
         }
     }
 
-    async assertOwnerInformation(owner: Owner): Promise<void> {
-        await expect(this.elements.ownerName).toHaveText(`${owner.firstName} ${owner.lastName}`);
-        await expect(this.elements.address).toHaveText(owner.address);
-        await expect(this.elements.city).toHaveText(owner.city);
-        await expect(this.elements.telephone).toHaveText(owner.telephone);
+    async assertOwnerInformation(name: string, address: string, city: string, telephone: string): Promise<void> {
+        await expect(this.elements.ownerName).toHaveText(name);
+        await expect(this.elements.address).toHaveText(address);
+        await expect(this.elements.city).toHaveText(city);
+        await expect(this.elements.telephone).toHaveText(telephone);
     }
 
-    async assertPets(expectedPetsCount: number, pets: Pet[]): Promise<void> {
-        expect(pets.length).toEqual(expectedPetsCount);
+    async assertPets(expectedPetsCount: number, petNames: string[]): Promise<void> {
+        expect(petNames.length).toEqual(expectedPetsCount);
 
-        for (const pet of pets) {
-            await expect(this.elements.petNameElementFor(pet.name)).toHaveText(pet.name);
+        for (const petName of petNames) {
+            await expect(this.elements.petNameElementFor(petName)).toHaveText(petName);
         }
     }
 
-    async assertVisitCountForPetIs(expectedPetVisitCount: number, pet: Pet): Promise<void> {
-        await expect(this.elements.visitsForPet(pet.name)).toHaveCount(expectedPetVisitCount);
+    async assertVisitCountForPetIs(expectedPetVisitCount: number, petName: string): Promise<void> {
+        await expect(this.elements.visitsForPet(petName)).toHaveCount(expectedPetVisitCount);
     }
 }
