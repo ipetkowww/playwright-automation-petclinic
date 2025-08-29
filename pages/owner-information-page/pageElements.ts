@@ -45,4 +45,19 @@ export class PageElements {
         return this.petCardElementFor(petName).getByRole('button', { name: 'Edit Pet' });
     }
 
+    get ownerName(): Locator {
+        return this.page.locator(".ownerFullName");
+    }
+
+    get address(): Locator {
+        return this.page.locator("th:has-text('Address')").locator("//following-sibling::td");
+    }
+
+    get city(): Locator {
+        return this.page.locator("th:has-text('City')").locator("//following-sibling::td");
+    }
+
+    get telephone(): Locator {
+        return this.page.locator("th:has-text('Telephone')").locator("//following-sibling::td");
+    }
 }
