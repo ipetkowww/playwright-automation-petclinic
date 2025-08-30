@@ -12,7 +12,7 @@ export class PageElements {
         return this.page.getByRole('row', { name: veterinarianName }).getByRole("button", { name: "Edit Vet" });
     }
 
-    specialties(veterinarianName: string): Locator {
+    veterinarianSpecialties(veterinarianName: string): Locator {
         return this.page.getByRole("row", { name: veterinarianName }).locator("td:nth-child(2) > div");
     }
 }
